@@ -394,7 +394,7 @@ BASE = """<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{{ title }} - learnmap</title>
-<style>{{ css }}</style>
+<style>{{ css|safe }}</style>
 <script>
 (function(){var t=localStorage.getItem('learnmap-theme');
 if(t){document.documentElement.setAttribute('data-theme',t);}

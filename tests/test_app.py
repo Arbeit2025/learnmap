@@ -106,3 +106,14 @@ def test_healthz(client):
     rv = client.get("/healthz")
     assert rv.status_code == 200
     assert rv.get_data(as_text=True) == "ok"
+
+
+def test_style_block_not_escaped(client):
+    """テーマ切替の回帰テスト: <style> 内の属性セレクタの引用符が
+    HTMLエスケープ（&#34;）されてダークテーマ規則が無効化されないこと。"""
+    rv = client.get("/")
+    html = rv.get_data(as_text=True)
+    style = html.split("<style>", 1)[1].split("</style>", 1)[0]
+    assert 'data-theme="dark"' in style
+    assert "&#34;" not in style
+    assert "data-theme" in html  # 切替スクリプトが入っていること
